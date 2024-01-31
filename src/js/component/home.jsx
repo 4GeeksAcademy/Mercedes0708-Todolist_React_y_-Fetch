@@ -29,7 +29,7 @@ import rigoImage from "../../img/rigo-baby.jpg";
  */
 
 //Hook de react: Herramientas de react 
-const Home = () => {
+export const Home = () => {
     //let newTodo = "Tarea de ejemplo"; 
     
     //el valor que vamos a mostrar, una función para modificar ese valor 
@@ -160,8 +160,7 @@ const Home = () => {
         const newTask = {label: newTodo, done: false}
         updateTodoList(newTask)  // nuevo
         setNewTodo('');
-        // setList([...list, newTask]);
-        // setTask("");
+        
       }
     
     
@@ -169,32 +168,40 @@ const Home = () => {
     //Eventos nos dan una serie de información
     
     return (
-        <div className="container col-xs-10 col-md-8 col-lg-6 my-3 ">
-            <h1 className="text-center mt-5">My Todo List Usando React y Fetch.</h1>
-            <div className="container">
-                {/* Este Input*/}
-					<div className="d-flex  my-3 gap-2">
-						<form onSubmit={addTask}>
-							<input type="text" className="form-control" value={newTodo} onChange={(event)=>{setNewTodo (event.target.value);}}/>
-						</form>
-					</div>  
-                    <button onClick={createTodoList} className="btn btn-primary m-3">Crear TodoList</button>
-      				      <button onClick={getTodoList} className="btn btn-warning m-3">Obtener Tareas</button>
-                    <button onClick={deleteTodoList} className="btn btn-danger m-3">Borrar TodoList</button>
-                <ul className="list-group">
-                    {/* Los elementos de la lista */}
-                    {todos.map((item,id) =>{
-                        return(
-                            <li key={id} className="list-group-item d-flex justify-content-between align-items-center ">
-                                {item}<button className="fas fa-trash text-danger" onClick={()=>deleteTask(id)}></button>
-                                
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
+      <div className="container col-xs-10 col-md-8 col-lg-6 my-3">
+        <h1 className="text-center"> My TodoList API</h1>
+  
+        {/* Formulario para agregar tareas */}
+        <div className="my-3">
+          <form onSubmit={addTask}>
+            <input className="form-control" placeholder="Write a new  to do " type="text"
+              value={newTodo}
+              onChange={(event) => {setNewTodo(event.target.value); }} />
+          </form>
         </div>
+        <button onClick={createTodoList} className="btn btn-primary m-3">Crear TodoList</button>
+        <button onClick={getTodoList} className="btn btn-warning m-3">Obtener Tareas</button>
+        <button onClick={deleteTodoList} className="btn btn-danger m-3">Eliminar TodoList</button>
+  
+        {/* Lista de Tareas */}
+        <h2 className="text-primary mt-2">Todos List</h2>
+        <div className="list">
+          <ul className="list-group">
+            {todos.map((item, id) => {
+              return <li key={id} className="list-group-item d-flex justify-content-between hidden-icon">
+                {item.label} - {item.done ? 'terminado' : 'pendiente'}
+                <span key={id} onClick={() => { deleteTask(item) }}>
+                  <i className="fas fa-trash text-danger"></i>
+                </span>
+              </li>
+            })
+            }
+            <span className="list-group-item bg-light text-end fw-lighter">
+              {todos.length === 0 ? " No to do, add a to do " : todos.length + " Item Left"}
+            </span>
+          </ul>
+        </div>
+      </div>
     );
-};
-
-export default Home;
+  };
+  export default (Home);
